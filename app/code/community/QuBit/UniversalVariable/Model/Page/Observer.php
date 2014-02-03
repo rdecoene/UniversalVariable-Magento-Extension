@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
 
 class QuBit_UniversalVariable_Model_Page_Observer {
 
@@ -238,7 +240,6 @@ class QuBit_UniversalVariable_Model_Page_Observer {
     //          Please migrate any frontend JavaScripts using this `universal_variable.page.category` variable
     $this->_page['category'] = $this->_page['type'];
     $this->_page['breadcrumb'] = $this->_getPageBreadcrumb();
-    var_dump($this->_page['type']);
   }
 
   // Set the user info
@@ -331,14 +332,14 @@ class QuBit_UniversalVariable_Model_Page_Observer {
   public function _getLineItems($items, $page_type) {
     $line_items = array();
     foreach($items as $item) {
+
+
       $productId = $item->getProductId();
       $product   = $this->_getProduct($productId);
-      // product needs to be visible
-      if ($product->isVisibleInSiteVisibility()) {
+
+      if($product->isConfigurable()) { 
         $litem_model             = array();
         $litem_model['product']  = $this->_getProductModel($product);
-
-
         $litem_model['subtotal'] = (float) $item->getRowTotalInclTax();
         $litem_model['total_discount'] = (float) $item->getDiscountAmount();
 
@@ -350,6 +351,7 @@ class QuBit_UniversalVariable_Model_Page_Observer {
 
         array_push($line_items, $litem_model);
       }
+      
     }
     return $line_items;
   }
@@ -370,6 +372,7 @@ class QuBit_UniversalVariable_Model_Page_Observer {
     $product  = $this->_getCurrentProduct();
     if (!$product) return false;
     $this->_product = $this->_getProductModel($product);
+    
   }
 
   public function _setBasket() {
