@@ -238,6 +238,7 @@ class QuBit_UniversalVariable_Model_Page_Observer {
     //          Please migrate any frontend JavaScripts using this `universal_variable.page.category` variable
     $this->_page['category'] = $this->_page['type'];
     $this->_page['breadcrumb'] = $this->_getPageBreadcrumb();
+    var_dump($this->_page['type']);
   }
 
   // Set the user info
